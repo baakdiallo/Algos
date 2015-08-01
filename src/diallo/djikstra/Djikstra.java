@@ -21,6 +21,10 @@ public class Djikstra {
 			 */
 			File file = new File("txt/reseauRoutier.txt");
 			Scanner fileScan = new Scanner(file);
+			
+			// Check if graph is directed or not
+			boolean directed = fileScan.nextInt() == 1;
+			
 			int numV = fileScan.nextInt();
 			int numE = fileScan.nextInt();
 			fileScan.nextLine();
@@ -32,13 +36,15 @@ public class Djikstra {
 			while(a < edges.length){
 				char left = edges[a].charAt(0);
 				char right = edges[a].charAt(1);
+				if(directed){
+					// For directed graph
+					adjMatrix[left - 'A'][right - 'A'] = Integer.parseInt(weights[a]);
+				}else{
+					// For undirected graph
+					adjMatrix[left - 'A'][right - 'A'] = Integer.parseInt(weights[a]);
+					adjMatrix[right - 'A'][left - 'A'] = Integer.parseInt(weights[a]);
+				}
 				
-				// For undirected graph
-				adjMatrix[left - 'A'][right - 'A'] = Integer.parseInt(weights[a]);
-				adjMatrix[right - 'A'][left - 'A'] = Integer.parseInt(weights[a]);
-				
-				// For directed graph
-				//adjMatrix[left - 'A'][right - 'A'] = Integer.parseInt(weights[a]);
 				
 				a++;
 			}
