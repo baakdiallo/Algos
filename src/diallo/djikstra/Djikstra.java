@@ -32,8 +32,14 @@ public class Djikstra {
 			while(a < edges.length){
 				char left = edges[a].charAt(0);
 				char right = edges[a].charAt(1);
+				
+				// For undirected graph
 				adjMatrix[left - 'A'][right - 'A'] = Integer.parseInt(weights[a]);
 				adjMatrix[right - 'A'][left - 'A'] = Integer.parseInt(weights[a]);
+				
+				// For directed graph
+				//adjMatrix[left - 'A'][right - 'A'] = Integer.parseInt(weights[a]);
+				
 				a++;
 			}
 			String start = fileScan.next();
