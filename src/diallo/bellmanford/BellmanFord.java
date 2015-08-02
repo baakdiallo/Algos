@@ -12,7 +12,7 @@ public class BellmanFord {
 		try {
 			/*
 			 * ==================================================================
-			 * =========================== Configuration: Read inputs [vertices,
+			 * Configuration: Read inputs [vertices,
 			 * edges, weights, start vertex (and index), end vertex (and index)]
 			 * Set up adjacency matrix
 			 */
@@ -57,9 +57,7 @@ public class BellmanFord {
 
 			/*
 			 * Everything from the try block to here is just configuration.
-			 * ======
 			 * ============================================================
-			 * ===========================
 			 */
 
 			// Create and initialize array to store distances from start vertex
