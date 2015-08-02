@@ -12,19 +12,21 @@ public class Djikstra {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		
-		try{
-			/* =============================================================================================
-			 * Configuration:
-			 * Read inputs [vertices, edges, weights, start vertex (and index), end vertex (and index)]
+
+		try {
+
+			/*
+			 * ==================================================================
+			 * =========================== Configuration: Read inputs [vertices,
+			 * edges, weights, start vertex (and index), end vertex (and index)]
 			 * Set up adjacency matrix
 			 */
 			File file = new File("txt/reseauRoutier.txt");
 			Scanner fileScan = new Scanner(file);
-			
+
 			// Check if graph is directed or not
 			boolean directed = fileScan.nextInt() == 1;
-			
+
 			int numV = fileScan.nextInt();
 			int numE = fileScan.nextInt();
 			fileScan.nextLine();
@@ -33,61 +35,71 @@ public class Djikstra {
 			String weights[] = fileScan.nextLine().split(" ");
 			int adjMatrix[][] = new int[numV][numV];
 			int a = 0;
-			while(a < edges.length){
+			while (a < edges.length) {
 				char left = edges[a].charAt(0);
 				char right = edges[a].charAt(1);
-				if(directed){
+				if (directed) {
 					// For directed graph
-					adjMatrix[left - 'A'][right - 'A'] = Integer.parseInt(weights[a]);
-				}else{
+					adjMatrix[left - 'A'][right - 'A'] = Integer
+							.parseInt(weights[a]);
+				} else {
 					// For undirected graph
-					adjMatrix[left - 'A'][right - 'A'] = Integer.parseInt(weights[a]);
-					adjMatrix[right - 'A'][left - 'A'] = Integer.parseInt(weights[a]);
+					adjMatrix[left - 'A'][right - 'A'] = Integer
+							.parseInt(weights[a]);
+					adjMatrix[right - 'A'][left - 'A'] = Integer
+							.parseInt(weights[a]);
 				}
-				
-				
+
 				a++;
 			}
 			String start = fileScan.next();
 			String end = fileScan.next();
 			int startIdx = start.charAt(0) - 'A';
 			int endIdx = end.charAt(0) - 'A';
-			
+
 			// Close scanner
 			fileScan.close();
-			
+
 			/*
 			 * Everything from the try block to here is just configuration.
-			 ============================================================================================= */
-			
-			// Make hashmap with vertices as keys and initialize value at startIdx to be 0 and all others to be +Inf
+			 * ======
+			 * ============================================================
+			 * ===========================
+			 */
+
+			// Make hashmap with vertices as keys and initialize value at
+			// startIdx to be 0 and all others to be +Inf
 			// Also create heap that will be minified after every node visit
 			Map<String, Integer> dist = new HashMap<String, Integer>();
 			List<Integer> minHeap = new ArrayList<Integer>();
-			for(int i = 0; i < numV; i++){
-				if(i != startIdx){
-					dist.put(String.valueOf((char)('A'+i)), Integer.MAX_VALUE);
+			for (int i = 0; i < numV; i++) {
+				if (i != startIdx) {
+					dist.put(String.valueOf((char) ('A' + i)),
+							Integer.MAX_VALUE);
 					minHeap.add(Integer.MAX_VALUE);
-				}else{
-					dist.put(String.valueOf((char)('A'+i)), 0);
+				} else {
+					dist.put(String.valueOf((char) ('A' + i)), 0);
 					minHeap.add(0);
 				}
 			}
-			
-			// Create a hashmap that will store the path and an int variable that will store the total weight to a vertex
-			//Map<String, Integer> pathAndWeight = new HashMap<String, Integer>();
-			
+
+			// Create a hashmap that will store the path and an int variable
+			// that will store the total weight to a vertex
+			// Map<String, Integer> pathAndWeight = new HashMap<String,
+			// Integer>();
+
 			// Create a hashmap that will store each vertex's previous vertex
 			// The starting vertex has no vertex before it
 			Map<String, String> before = new HashMap<String, String>();
 			before.put(start, "");
-			
+
 			// While the end vertex has not yet been visited
-			while(vertices[endIdx] != "V"){
-				
-				// Minheapify the total distances at vertices to get the next closest vertex
+			while (vertices[endIdx] != "V") {
+
+				// Minheapify the total distances at vertices to get the next
+				// closest vertex
 				minHeap = minHeapify(minHeap);
-				
+
 				// Get next closest vertex based on min heap root
 				int min = minHeap.get(0);
 				String key = "";
@@ -100,52 +112,59 @@ public class Djikstra {
 					}
 				}
 
-				// Mark vertex as visited and remove min value from heap since we already have its key and index
+				// Mark vertex as visited and remove min value from heap since
+				// we already have its key and index
 				vertices[keyIdx] = "V";
-				
+
 				// Break out of the loop if we reached the EndIdx
-				if(keyIdx == endIdx) break;
-				else minHeap.remove(0);
-				
-				for(int i = 0; i < numV; i++){
-					String neighbor = String.valueOf((char)('A'+i));
+				if (keyIdx == endIdx)
+					break;
+				else
+					minHeap.remove(0);
+
+				for (int i = 0; i < numV; i++) {
+					String neighbor = String.valueOf((char) ('A' + i));
 					int total = min + adjMatrix[keyIdx][i];
-					if(vertices[i] != "V" && adjMatrix[keyIdx][i] != 0 && 
-							total < dist.get(neighbor)){
-						
-						// Remove old higher value from minHeap and add new lower value for a certain vertex
+					if (vertices[i] != "V" && adjMatrix[keyIdx][i] != 0
+							&& total < dist.get(neighbor)) {
+
+						// Remove old higher value from minHeap and add new
+						// lower value for a certain vertex
 						// Also update the value on the list of distances
 						minHeap.remove(dist.get(neighbor));
 						minHeap.add(total);
 						dist.put(neighbor, total);
-						
+
 						// Add path and weight from vertex to neighbor
-						//pathAndWeight.put(key + neighbor, total);
-						
-						// Update the vertex that comes before the current one in our path
+						// pathAndWeight.put(key + neighbor, total);
+
+						// Update the vertex that comes before the current one
+						// in our path
 						before.put(neighbor, key);
 					}
 				}
-				
+
 				dist.remove(key);
 			}
 
-			//System.out.println(pathAndWeight.toString());
-			//System.out.println(before.toString());
-			
+			// System.out.println(pathAndWeight.toString());
+			// System.out.println(before.toString());
+
 			// Get the path
 			String current = end;
 			String path = "=>" + current;
-			while(before.get(current) != ""){
+			while (before.get(current) != "") {
 				path = "=>" + before.get(current) + path;
 				current = before.get(current);
 			}
 			path = path.substring(2);
-			
-			System.out.println(String.format("Using Djikstra's algorithm, the Minimum Total Distance from %s to %s is %d.\n"
-					+ "The path is:\t %s.", start, end, minHeap.get(0), path));
-			
-		}catch(FileNotFoundException fnfe){
+
+			System.out.println(String.format(
+					"Using Djikstra's algorithm, the Minimum Total Distance from %s to %s is %d.\n"
+							+ "The path is:\t %s.", start, end, minHeap.get(0),
+					path));
+
+		} catch (FileNotFoundException fnfe) {
 			fnfe.printStackTrace();
 		}
 	}
