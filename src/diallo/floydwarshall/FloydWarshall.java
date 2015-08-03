@@ -62,6 +62,7 @@ public class FloydWarshall {
 
 			// Close scanner
 			fileScan.close();
+
 			/*
 			 * Everything from the try block to here is just configuration.
 			 * ============================================================
@@ -70,8 +71,8 @@ public class FloydWarshall {
 			for (int i = 0; i < numV; i++) {
 				for (int j = 0; j < numV; j++) {
 					for (int k = 0; k < numV; k++) {
-						if (adjMatrix[i][k] != Integer.MAX_VALUE
-								&& adjMatrix[i][j] != Integer.MAX_VALUE
+						if (adjMatrix[j][i] != Integer.MAX_VALUE
+								&& adjMatrix[i][k] != Integer.MAX_VALUE
 								&& adjMatrix[j][i] + adjMatrix[i][k] < adjMatrix[j][k]) {
 							adjMatrix[j][k] = adjMatrix[j][i] + adjMatrix[i][k];
 						}
@@ -89,9 +90,16 @@ public class FloydWarshall {
 
 	// Print matrix with shortest distance i->j at adjacencyMatrix[i][j]
 	static void printAdjacencyMatrix(int[][] adjacencyMatrix) {
-		for (int[] arr : adjacencyMatrix) {
-			for (int a : arr)
-				System.out.print(a + "\t");
+		for (int i = 0; i < adjacencyMatrix.length; i++)
+			System.out.print("\t" + String.valueOf((char) ('A' + i)));
+		System.out.println();
+		for (int i = 0; i < adjacencyMatrix.length; i++) {
+			System.out.print(String.valueOf((char) ('A' + i)) + "\t");
+			for (int j = 0; j < adjacencyMatrix[i].length; j++)
+				if (adjacencyMatrix[i][j] != Integer.MAX_VALUE)
+					System.out.print(adjacencyMatrix[i][j] + "\t");
+				else
+					System.out.print("-\t");
 			System.out.println();
 		}
 	}
