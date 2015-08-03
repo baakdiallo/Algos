@@ -17,11 +17,11 @@ public class Djikstra {
 
 			/*
 			 * ==================================================================
-			 * =========================== Configuration: Read inputs [vertices,
-			 * edges, weights, start vertex (and index), end vertex (and index)]
-			 * Set up adjacency matrix
+			 * Configuration: Read inputs [vertices, edges, weights, start
+			 * vertex (and index), end vertex (and index)] Set up adjacency
+			 * matrix
 			 */
-			File file = new File("txt/reseauRoutier.txt");
+			File file = new File("txt/networkConfig.txt");
 			Scanner fileScan = new Scanner(file);
 
 			// Check if graph is directed or not
@@ -35,6 +35,12 @@ public class Djikstra {
 			String weights[] = fileScan.nextLine().split(" ");
 			int adjMatrix[][] = new int[numV][numV];
 			int a = 0;
+
+			// initialize matrix with Inf for all edges
+			for (int i = 0; i < numV; i++)
+				for (int j = 0; j < numV; j++)
+					adjMatrix[i][j] = Integer.MAX_VALUE;
+
 			while (a < edges.length) {
 				char left = edges[a].charAt(0);
 				char right = edges[a].charAt(1);
@@ -76,7 +82,7 @@ public class Djikstra {
 				if (i != startIdx) {
 					dist.put(String.valueOf((char) ('A' + i)),
 							Integer.MAX_VALUE);
-					minHeap.add(Integer.MAX_VALUE);
+					// minHeap.add(Integer.MAX_VALUE);
 				} else {
 					dist.put(String.valueOf((char) ('A' + i)), 0);
 					minHeap.add(0);
@@ -93,8 +99,14 @@ public class Djikstra {
 			Map<String, String> before = new HashMap<String, String>();
 			before.put(start, "");
 
+			boolean noPath = false;
+
 			// While the end vertex has not yet been visited
 			while (vertices[endIdx] != "V") {
+				if (minHeap.isEmpty()) {
+					noPath = true;
+					break;
+				}
 
 				// Minheapify the total distances at vertices to get the next
 				// closest vertex
@@ -125,7 +137,8 @@ public class Djikstra {
 				for (int i = 0; i < numV; i++) {
 					String neighbor = String.valueOf((char) ('A' + i));
 					int total = min + adjMatrix[keyIdx][i];
-					if (vertices[i] != "V" && adjMatrix[keyIdx][i] != 0
+					if (vertices[i] != "V"
+							&& adjMatrix[keyIdx][i] != Integer.MAX_VALUE
 							&& total < dist.get(neighbor)) {
 
 						// Remove old higher value from minHeap and add new
@@ -147,22 +160,29 @@ public class Djikstra {
 				dist.remove(key);
 			}
 
-			// System.out.println(pathAndWeight.toString());
-			// System.out.println(before.toString());
+			// If there is no path
+			if (noPath)
+				System.out.println("There is no path in the given graph from "
+						+ start + " to " + end + ".");
+			else {
 
-			// Get the path
-			String current = end;
-			String path = "=>" + current;
-			while (before.get(current) != "") {
-				path = "=>" + before.get(current) + path;
-				current = before.get(current);
+				// System.out.println(pathAndWeight.toString());
+				// System.out.println(before.toString());
+
+				// Get the path
+				String current = end;
+				String path = "=>" + current;
+				while (before.get(current) != "") {
+					path = "=>" + before.get(current) + path;
+					current = before.get(current);
+				}
+				path = path.substring(2);
+
+				System.out.println(String.format(
+						"Using Djikstra's algorithm, the Minimum Total Distance from %s to %s is %d.\n"
+								+ "The path is:\t %s.", start, end,
+						minHeap.get(0), path));
 			}
-			path = path.substring(2);
-
-			System.out.println(String.format(
-					"Using Djikstra's algorithm, the Minimum Total Distance from %s to %s is %d.\n"
-							+ "The path is:\t %s.", start, end, minHeap.get(0),
-					path));
 
 		} catch (FileNotFoundException fnfe) {
 			fnfe.printStackTrace();
