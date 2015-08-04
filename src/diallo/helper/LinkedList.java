@@ -126,6 +126,19 @@ public class LinkedList {
 		head = temp;
 		return reversed;
 	}
+	
+	public boolean contains(int integer){
+		Node temp = head;
+		while(head != null && head.data != integer)
+			head = head.next;
+		if (head != null){
+			head = temp;
+			return true;
+		}else{
+			head = temp;
+			return false;
+		}
+	}
 
 	public int size() {
 		if (this.isEmpty())
@@ -142,12 +155,16 @@ public class LinkedList {
 
 	public void printList(Node h) {
 		String list = "";
+		if(h == null){
+			System.out.println("(empty list)");
+			return;
+		}
 		while (h != null) {
 			list += h.data + " => ";
 			h = h.next;
 		}
 		list = list.substring(0, list.length() - 4);
-		System.out.println("List: " + list);
+		System.out.println("Linked List: " + list);
 	}
 
 	public boolean isEmpty() {
