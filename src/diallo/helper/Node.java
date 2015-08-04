@@ -2,9 +2,9 @@ package diallo.helper;
 
 public class Node {
 
-	public int data;
-	public Node next;
-	public Node prev;
+	int data;
+	Node next;
+	Node prev;
 
 	public Node(int data, Node next) {
 		this.data = data;
