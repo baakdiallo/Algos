@@ -91,11 +91,6 @@ public class BreadthFirstSearch {
 						// Add node to queue and visited lists
 						queue.addLast(new Node(i, null));
 						visited.addLast(new Node(i, null));
-
-						// Mark as visited
-						adjMatrix[current][i] = -1;
-						if (!directed)
-							adjMatrix[i][current] = -1;
 					}
 				}
 			}
