@@ -61,7 +61,7 @@ public class BreadthFirstSearch {
 
 			// char array to store the order of our visited vertices
 			// Initialize all values to some character
-			// Set value at index 0 to be our starting vertex A
+			// Set value at index 0 to be our starting vertex
 			char[] order = new char[numV];
 			for (int i = 0; i < order.length; i++)
 				order[i] = '-';
