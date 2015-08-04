@@ -43,17 +43,6 @@ public class LinkedListAndNodeTester {
 		System.out.println(tsil.getHead()); // 7
 		System.out.println(tsil.getDataAtIndex(3)); // 4
 
-		/*
-		 * 
-		 * Console Output:
-		 * 
-		 * Data: 3 List: 3 => 2 => 1 List: 3 => 1 Data: 1 Data: 4 List: 3 => 4
-		 * Data: 3 List: 3 => 4 => 100 List: -5 => 3 => 4 => 100 List: -5 => 3
-		 * => 4 => 100 => 7 List: -5 => 3 => 4 => 3 => 100 => 7 List: -5 => 3 =>
-		 * 12 => 4 => 3 => 100 => 7 List: 12 => 4 => 3 => 100 => 7 List: 7 =>
-		 * 100 => 3 => 4 => 12 Data: 12 Data: 7 4
-		 */
-
 	}
 
 }
