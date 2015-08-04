@@ -133,7 +133,7 @@ public class LinkedList {
 
 		int size = 0;
 		Node temp = head;
-		while (temp.next != null) {
+		while (temp != null) {
 			size++;
 			temp = temp.next;
 		}

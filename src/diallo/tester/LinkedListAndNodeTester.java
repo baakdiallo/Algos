@@ -42,6 +42,7 @@ public class LinkedListAndNodeTester {
 		System.out.println(list.getHead()); // 712
 		System.out.println(tsil.getHead()); // 7
 		System.out.println(tsil.getDataAtIndex(3)); // 4
+		System.out.println(list.size());	// 5
 
 	}
 
