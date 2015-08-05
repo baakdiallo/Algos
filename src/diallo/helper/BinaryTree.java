@@ -44,16 +44,6 @@ public class BinaryTree {
 			}
 		}
 	}
-	
-	public boolean isBinarySearchTree(BTNode node){
-		if(node == null)
-			return true;
-		if(node.left != null && node.left.data > node.data)
-			return false;
-		if(node.right != null && node.right.data < node.data)
-			return false;
-		return isBinarySearchTree(node.left) && isBinarySearchTree(node.right);
-	}
 
 	public void inOrderRecursive(BTNode node) {
 		if (node == null)
@@ -129,6 +119,16 @@ public class BinaryTree {
 	
 	static void visit(BTNode node){
 		System.out.print(node.data + " ");
+	}
+	
+	public boolean isBinarySearchTree(BTNode node){
+		if(node == null)
+			return true;
+		if(node.left != null && node.left.data > node.data)
+			return false;
+		if(node.right != null && node.right.data < node.data)
+			return false;
+		return isBinarySearchTree(node.left) && isBinarySearchTree(node.right);
 	}
 
 	public BTNode getRoot() {
