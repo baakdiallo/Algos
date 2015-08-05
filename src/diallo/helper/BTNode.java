@@ -13,9 +13,8 @@ public class BTNode {
 		this.data = data;
 	}
 	
-	public BTNode(int data, BTNode parent, BTNode left, BTNode right){
+	public BTNode(int data, BTNode left, BTNode right){
 		this.data = data;
-		this.parent = parent;
 		this.left = left;
 		this.right = right;
 	}
@@ -36,7 +35,7 @@ public class BTNode {
 		return parent;
 	}
 	
-	public void setParent(BTNode parent) {
+	void setParent(BTNode parent) {
 		this.parent = parent;
 	}
 	
@@ -45,6 +44,7 @@ public class BTNode {
 	}
 	
 	public void setLeft(BTNode left) {
+		left.setParent(this);;
 		this.left = left;
 	}
 	
@@ -53,6 +53,7 @@ public class BTNode {
 	}
 	
 	public void setRight(BTNode right) {
+		right.setParent(this);
 		this.right = right;
 	}
 	

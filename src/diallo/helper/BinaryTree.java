@@ -118,7 +118,7 @@ public class BinaryTree {
 	}
 	
 	static void visit(BTNode node){
-		System.out.println(node.data + " ");
+		System.out.print(node.data + " ");
 	}
 
 	public BTNode getRoot() {
@@ -134,6 +134,7 @@ public class BinaryTree {
 	}
 
 	public void setLeft(BinaryTree left) {
+		root.setLeft(left.root);
 		this.left = left;
 	}
 
@@ -142,17 +143,8 @@ public class BinaryTree {
 	}
 
 	public void setRight(BinaryTree right) {
+		root.setRight(right.root);
 		this.right = right;
 	}
-
-	/*static boolean visitAndMoveUp(BTNode r) {
-		return r.isLeaf() || (r.right == null && r.left.getVisited())
-				|| (r.left == null && r.right.getVisited())
-				|| (r.left.getVisited() && r.right.getVisited());
-	}
-
-	static boolean stayDown(BTNode r) {
-		return !visitAndMoveUp(r);
-	}*/
 
 }
