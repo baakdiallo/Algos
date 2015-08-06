@@ -19,16 +19,37 @@ public class BinaryTree {
 		this.left = left;
 		this.right = right;
 	}
-	
-	public int getHeight(BTNode node){
-		if(node == null)
+
+	public int getHeight(BTNode node) {
+		if (node == null)
 			return -1;
 		int leftHeight = getHeight(node.left);
 		int rightHeight = getHeight(node.right);
-		if(leftHeight > rightHeight)
+		if (leftHeight > rightHeight)
 			return leftHeight + 1;
 		else
 			return rightHeight + 1;
+	}
+
+	public int getDepthOf(BTNode node) {
+		if (node == null)
+			return -1;
+		int height = 0;
+		BTNode temp = node;
+		while (node != null && node != root) {
+			height++;
+			node = node.parent;
+		}
+		node = temp;
+		return height;
+	}
+
+	public int getDepthOfRecursive(BTNode node) {
+		if (node == null)
+			return -1;
+		if (node == root)
+			return 0;
+		return getDepthOf(node.parent) + 1;
 	}
 
 	public void inOrder(BTNode node) {
@@ -116,17 +137,17 @@ public class BinaryTree {
 				queue.add(node.right);
 		}
 	}
-	
-	static void visit(BTNode node){
+
+	static void visit(BTNode node) {
 		System.out.print(node.data + " ");
 	}
-	
-	public boolean isBinarySearchTree(BTNode node){
-		if(node == null)
+
+	public boolean isBinarySearchTree(BTNode node) {
+		if (node == null)
 			return true;
-		if(node.left != null && node.left.data > node.data)
+		if (node.left != null && node.left.data > node.data)
 			return false;
-		if(node.right != null && node.right.data < node.data)
+		if (node.right != null && node.right.data < node.data)
 			return false;
 		return isBinarySearchTree(node.left) && isBinarySearchTree(node.right);
 	}

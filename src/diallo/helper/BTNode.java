@@ -17,6 +17,8 @@ public class BTNode {
 		this.data = data;
 		this.left = left;
 		this.right = right;
+		left.parent = this;
+		right.parent = this;
 	}
 	
 	public boolean isLeaf(){

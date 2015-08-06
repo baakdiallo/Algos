@@ -58,6 +58,8 @@ public class BinaryTreeTester {
 		tree.postOrderRecursive(tree.getRoot());
 		System.out.println();
 		System.out.println(subTree.isBinarySearchTree(subTree.getRoot().getRight()));
+		System.out.println(tree.getDepthOf(rootrr));
+		System.out.println(tree.getDepthOfRecursive(rootlrr.getLeft()));
 		
 		// TREE:
 		//                        5
@@ -78,6 +80,8 @@ public class BinaryTreeTester {
 		// Post-Order: 2 0 6 1 3 -7 7 10 8 9 5
 		// Post-Order With Recursion: 2 0 6 1 3 -7 7 10 8 9 5
 		// true
+		// 2
+		// 4
 		// ==================================================
 	}
 
