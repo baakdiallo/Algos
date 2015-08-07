@@ -3,28 +3,29 @@ package diallo.helper;
 public class Graph {
 
 	GraphNode[] nodes;
+	GraphEdge[] edges;
 	boolean directed;
 
-	public Graph(GraphNode[] nodes, boolean directed) {
+	public Graph(GraphNode[] nodes, GraphEdge[] edges, boolean directed) {
 		this.nodes = nodes;
+		this.edges = edges;
 		this.directed = directed;
+	}
+
+	public int numEdges() {
+		return edges.length;
 	}
 
 	public int numNodes() {
 		return nodes.length;
 	}
 
-	public int numEdges() {
-		int numEdges = 0;
-		for (GraphNode node : nodes)
-			numEdges += node.neighbors.size();
-		if (directed)
-			return numEdges / 2;
-		return numEdges;
-	}
-
 	public GraphNode[] getNodes() {
 		return nodes;
+	}
+
+	public GraphEdge[] getEdges() {
+		return edges;
 	}
 
 	public boolean isDirected() {

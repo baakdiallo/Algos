@@ -2,19 +2,34 @@ package diallo.helper;
 
 public class GraphNode {
 
-	String name;
+	char name;
 	int distance;
 	GraphList neighbors;
+	GraphNode predecessor;
 	boolean visited = false;;
 
-	public GraphNode(String name, int distance) {
+	public GraphNode(char name, int distance) {
 		this.name = name;
 		this.distance = distance;
 	}
 
-	public GraphNode(String name, int distance, GraphList neighbors) {
+	public GraphNode(char name, int distance, GraphList neighbors) {
 		this.name = name;
 		this.distance = distance;
+		this.neighbors = neighbors;
+	}
+
+	public GraphNode(char name, int distance, GraphNode predecessor) {
+		this.name = name;
+		this.distance = distance;
+		this.predecessor = predecessor;
+	}
+
+	public GraphNode(char name, int distance, GraphNode predecessor,
+			GraphList neighbors) {
+		this.name = name;
+		this.distance = distance;
+		this.predecessor = predecessor;
 		this.neighbors = neighbors;
 	}
 
@@ -22,11 +37,11 @@ public class GraphNode {
 		return neighbors.contains(node);
 	}
 
-	public String getName() {
+	public char getName() {
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(char name) {
 		this.name = name;
 	}
 
@@ -44,6 +59,14 @@ public class GraphNode {
 
 	public void setNeighbors(GraphList neighbors) {
 		this.neighbors = neighbors;
+	}
+
+	public GraphNode getPredecessor() {
+		return predecessor;
+	}
+
+	public void setPredecessor(GraphNode predecessor) {
+		this.predecessor = predecessor;
 	}
 
 	public boolean isVisited() {
