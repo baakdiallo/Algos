@@ -25,8 +25,6 @@ public class SierpinskiTriangle extends JPanel {
 	int WIDTH = 700;
 	int HEIGHT = 400;
 
-	Polygon triangle;
-
 	public SierpinskiTriangle(Point p1, Point p2, Point p3, int numIter) {
 		this.p1 = p1;
 		this.p2 = p2;
@@ -34,8 +32,6 @@ public class SierpinskiTriangle extends JPanel {
 		this.numIter = numIter;
 
 		polygons = new ArrayList<Polygon>();
-
-		initializeTriangle();
 
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 
@@ -63,7 +59,7 @@ public class SierpinskiTriangle extends JPanel {
 		y[1] = mid2.y;
 		y[2] = mid3.y;
 
-		triangle = new Polygon(x, y, 3);
+		Polygon triangle = new Polygon(x, y, 3);
 		polygons.add(triangle);
 
 		sierpinskify(numIter - 1, one, mid1, mid3);
@@ -71,17 +67,6 @@ public class SierpinskiTriangle extends JPanel {
 		sierpinskify(numIter - 1, mid3, mid2, three);
 
 		repaint();
-	}
-
-	void initializeTriangle() {
-		x[0] = p1.x;
-		x[1] = p2.x;
-		x[2] = p3.x;
-		y[0] = p1.y;
-		y[1] = p2.y;
-		y[2] = p3.y;
-
-		triangle = new Polygon(x, y, 3);
 	}
 
 }
