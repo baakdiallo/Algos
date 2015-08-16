@@ -170,7 +170,7 @@ public class UsefulMethods {
 		System.out.println();
 	}
 
-	static void printArray(int[] a) {
+	public static void printArray(int[] a) {
 		for (int i : a) {
 			System.out.print(i + " ");
 		}
