@@ -100,9 +100,11 @@ public class LinkedList {
 	}
 
 	public void removeNodeAtIndex(int index) {
+		if (index < 0)
+			throw new IndexOutOfBoundsException("...");
 		if (this.isEmpty())
 			return;
-		else if (index == 0)
+		if (index == 0)
 			head = head.next;
 		else {
 			Node previous = getNodeAtIndex(index - 1);
@@ -111,6 +113,20 @@ public class LinkedList {
 				previous.next = n.next;
 			}
 		}
+	}
+
+	public int indexOf(Node n) {
+		if (head == null)
+			return -1;
+		if (head.data == n.data)
+			return 0;
+		int counter = 0;
+		Node temp = head;
+		while (temp != null && temp.data != n.data) {
+			temp = temp.next;
+			counter++;
+		}
+		return temp == null ? -1 : counter;
 	}
 
 	public LinkedList reverseList() {
@@ -126,15 +142,15 @@ public class LinkedList {
 		head = temp;
 		return reversed;
 	}
-	
-	public boolean contains(int integer){
+
+	public boolean contains(int integer) {
 		Node temp = head;
-		while(head != null && head.data != integer)
+		while (head != null && head.data != integer)
 			head = head.next;
-		if (head != null){
+		if (head != null) {
 			head = temp;
 			return true;
-		}else{
+		} else {
 			head = temp;
 			return false;
 		}
@@ -155,7 +171,7 @@ public class LinkedList {
 
 	public void printList(Node h) {
 		String list = "";
-		if(h == null){
+		if (h == null) {
 			System.out.println("(empty list)");
 			return;
 		}
