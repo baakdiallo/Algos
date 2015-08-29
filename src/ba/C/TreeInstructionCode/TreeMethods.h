@@ -1,0 +1,12 @@
+extern void buildTree(Tree *a,int data);
+extern void addDataTree(Tree *a,Tree b);
+extern void printRGD(Tree a);
+extern void printGRD(Tree a);
+extern void printGDR(Tree a);
+extern Tree searchDataTree(Tree a,int data);
+extern int getMaxData(int nbr1,int nbr2);
+extern int getHeight(Tree a);
+extern Tree getMaximum(Tree a);
+extern Tree getMaximum(Tree a);
+extern void deleteData(Tree *a,int d);
+extern void breakTree(Tree a);
