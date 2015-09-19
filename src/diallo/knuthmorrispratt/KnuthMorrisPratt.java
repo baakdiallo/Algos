@@ -5,7 +5,7 @@ public class KnuthMorrisPratt {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		System.out.println(kmpMatch("ssdab", "ssdabcdabaldabcdabddfe"));
+		System.out.println(kmpMatch("bcdabd", "ssdabcdabaldabcdabddfe"));
 
 	}
 
@@ -37,14 +37,13 @@ public class KnuthMorrisPratt {
 
 		index = 0;
 		int j = 0;
-		int at = -1;
 		while (j < s.length()) {
-
+			System.out.println(index + ":" + j);
 			// match found if length of index = length of pattern n (meaning we
 			// have n successful consecutive character comparisons
 			if (index == pattern.length()) {
-				System.out.println("There is a match for " + pattern
-						+ " at character # " + (j - pattern.length() + 1)
+				System.out.println("There is a match for '" + pattern
+						+ "' at character # " + (j - pattern.length() + 1)
 						+ " of " + s + ".");
 				return true;
 			}
@@ -58,11 +57,11 @@ public class KnuthMorrisPratt {
 			// move indices of strings if no character
 			// match, index of pattern depends on our prefix table for the
 			// pattern
-			else if (index > 1) {
-				j += index - 1;
-				index = prefixTable[index - 1];
-			} else
+			else {
+				if (index > 1)
+					index = prefixTable[index - 1];
 				j++;
+			}
 		}
 
 		return false;
