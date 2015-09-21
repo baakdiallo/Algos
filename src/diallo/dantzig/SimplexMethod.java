@@ -35,6 +35,7 @@ public class SimplexMethod {
 			double pE = table[pC][pR];
 			operateOnRow(table, pR, pE);
 			zeroOtherRows();
+			// TO BE COMPLETED
 		}
 	}
 
