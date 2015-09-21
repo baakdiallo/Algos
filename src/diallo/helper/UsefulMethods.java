@@ -169,8 +169,17 @@ public class UsefulMethods {
 		}
 		System.out.println();
 	}
+	
+	public static void print2DArray(double[][] a) {
+		for (double[] i : a) {
+			for (double j : i)
+				System.out.print(j + " ");
+			System.out.println();
+		}
+		System.out.println();
+	}
 
-	public static void printArray(int[] a) {
+	static void printArray(int[] a) {
 		for (int i : a) {
 			System.out.print(i + " ");
 		}
