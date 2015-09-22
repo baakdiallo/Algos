@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+import diallo.helper.UsefulMethods;
+
 public class SimplexMethod {
 
 	public static void main(String[] args) throws FileNotFoundException {
@@ -15,11 +17,9 @@ public class SimplexMethod {
 		ineqs[2] = new Inequality(240, 2, 1, 2);
 		Inequality p = new Inequality(0, -6, -5, -4);
 
-		// double[][] table = simplexTable(ineqs, p);
-		// UsefulMethods.print2DArray(table);
-
 		double[][] table = readValuesIntoSimplexTable("txt/simplexTable.txt");
-		// UsefulMethods.print2DArray(table);
+
+		simplexMethod(table, ineqs, p);
 
 	}
 
@@ -34,19 +34,61 @@ public class SimplexMethod {
 			int pR = getPivotRow(pC, ineqs.length, table);
 			double pE = table[pC][pR];
 			operateOnRow(table, pR, pE);
-			zeroOtherRows();
-			// TO BE COMPLETED
+			zeroOtherRows(table, pR, pC);
 		}
+
+		printVariables(table);
 	}
 
-	public static void zeroOtherRows() {
+	public static void printVariables(double[][] table) {
+		for (int j = 0; j < table[0].length; j++)
+			if (isBasicColumn(table, j)) {
+				int row = rowIndexOfOneInColumn(table, j);
+				if (j != table[0].length - 1)
+					System.out.println("Variable #" + (j + 1) + ":\t"
+							+ table[row][table[0].length - 1]);
+				else
+					System.out.println("Maximum is " + table[row][j]);
+			}
+		System.out.println("All other variables are 0.");
+	}
 
+	public static int rowIndexOfOneInColumn(double[][] table, int col) {
+		for (int i = 0; i < table.length; i++)
+			if (table[i][col] == 1)
+				return i;
+		return -1;
+	}
+
+	public static boolean isBasicColumn(double[][] table, int col) {
+		int numZeros = 0;
+		int numOnes = 0;
+		for (int i = 0; i < table.length; i++)
+			if (table[i][col] == 0)
+				numZeros++;
+			else if (table[i][col] == 1)
+				numOnes++;
+
+		return numOnes == 1 && numZeros == table.length - 1;
+	}
+
+	public static void zeroOtherRows(double[][] table, int pR, int pC) {
+		for (int i = 0; i < table.length; i++) {
+			if (i != pR) {
+				double num = table[i][pC];
+				if (num != 0) {
+					for (int j = 0; j < table[i].length; j++) {
+						table[i][j] -= num * table[pR][j];
+					}
+				}
+			}
+		}
 	}
 
 	public static void operateOnRow(double[][] table, int pivotRow,
 			double pivotElement) {
-		for (double d : table[pivotRow])
-			d = d / pivotElement;
+		for (int i = 0; i < table[pivotRow].length; i++)
+			table[pivotRow][i] /= pivotElement;
 	}
 
 	public static int getPivotRow(int pivotColumn, int numRows, double[][] table) {
