@@ -7,7 +7,7 @@ public class Inequality {
 	private double[] doubleLHS;
 	private int intRHS;
 	private double doubleRHS;
-	public boolean doubles;
+	private boolean doubles;
 
 	public Inequality(int rhs, int... vars) {
 		int n = vars.length;
