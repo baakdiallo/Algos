@@ -21,7 +21,6 @@ public class BinaryTree {
 	}
 
 	public boolean isBalanced() {
-		// BinaryTree node = new BinaryTree(root);
 		Stack<BinaryTree> stack = new Stack<BinaryTree>();
 		stack.push(this);
 		while (!stack.isEmpty()) {
