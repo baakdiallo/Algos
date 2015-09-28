@@ -1,4 +1,4 @@
-package stacksandqueues;
+package diallo.fun;
 
 public class Program1 {
 

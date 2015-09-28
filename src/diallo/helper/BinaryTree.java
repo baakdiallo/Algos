@@ -6,9 +6,9 @@ import java.util.Stack;
 
 public class BinaryTree {
 
-	BTNode root;
-	BinaryTree left;
-	BinaryTree right;
+	protected BTNode root;
+	protected BinaryTree left;
+	protected BinaryTree right;
 
 	public BinaryTree(BTNode root) {
 		this.root = root;
@@ -18,6 +18,29 @@ public class BinaryTree {
 		this.root = root;
 		this.left = left;
 		this.right = right;
+	}
+
+	public boolean isBalanced() {
+		// BinaryTree node = new BinaryTree(root);
+		Stack<BinaryTree> stack = new Stack<BinaryTree>();
+		stack.push(this);
+		while (!stack.isEmpty()) {
+			BinaryTree current = stack.pop();
+			BinaryTree right = current.right;
+			BinaryTree left = current.left;
+			if ((right != null && left != null && Math.abs(right
+					.getHeight(right.root) - left.getHeight(left.root)) > 1)
+					|| (right == null && left != null && left
+							.getHeight(left.root) > 0)
+					|| (left == null && right != null && right
+							.getHeight(right.root) > 0))
+				return false;
+			if (right != null)
+				stack.push(right);
+			if (left != null)
+				stack.push(left);
+		}
+		return true;
 	}
 
 	public int getHeight(BTNode node) {
@@ -136,6 +159,7 @@ public class BinaryTree {
 			if (node.right != null)
 				queue.add(node.right);
 		}
+		System.out.println();
 	}
 
 	static void visit(BTNode node) {
@@ -143,13 +167,24 @@ public class BinaryTree {
 	}
 
 	public boolean isBinarySearchTree(BTNode node) {
-		if (node == null)
-			return true;
-		if (node.left != null && node.left.data > node.data)
-			return false;
-		if (node.right != null && node.right.data < node.data)
-			return false;
-		return isBinarySearchTree(node.left) && isBinarySearchTree(node.right);
+		List<BTNode> nodeList = new ArrayList<BTNode>();
+		Stack<BTNode> stack = new Stack<BTNode>();
+		while (!stack.isEmpty() || node != null) {
+			if (node != null) {
+				stack.push(node);
+				node = node.left;
+			} else {
+				node = stack.pop();
+				nodeList.add(node);
+				node = node.right;
+			}
+		}
+
+		for (int i = 1; i < nodeList.size(); i++)
+			if (nodeList.get(i).data < nodeList.get(i - 1).data)
+				return false;
+
+		return true;
 	}
 
 	public BTNode getRoot() {
