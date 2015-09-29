@@ -5,7 +5,7 @@ public class KnuthMorrisPratt {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		System.out.println(kmpMatch("bcdabd", "ssdabcdabaldabcdabddfe"));
+		System.out.println(kmpMatch("dabd", "ssdabcdabaldabcdabddfe"));
 
 	}
 
@@ -35,10 +35,37 @@ public class KnuthMorrisPratt {
 			}
 		}
 
+		for (int i : prefixTable)
+			System.out.print(i + " ");
+
 		index = 0;
 		int j = 0;
+		int k = j;
+		boolean update;
 		while (j < s.length()) {
-			System.out.println(index + ":" + j);
+
+			// variable to let us know whether or not to update j (index of
+			// string) and k (last index of j at non-matching characters)
+			update = false;
+
+			// if match found for a character, move to next characters
+			if (pattern.charAt(index) == s.charAt(j)) {
+				index++;
+				j++;
+			} else {
+				update = true;
+				index = 0;
+			}
+
+			if (update) {
+
+				// move indices of strings if no character
+				// match, index j of string depends on our prefix table for the
+				// pattern
+				j = k + index + 1 - prefixTable[index];
+				k = j;
+			}
+
 			// match found if length of index = length of pattern n (meaning we
 			// have n successful consecutive character comparisons
 			if (index == pattern.length()) {
@@ -46,21 +73,6 @@ public class KnuthMorrisPratt {
 						+ "' at character # " + (j - pattern.length() + 1)
 						+ " of " + s + ".");
 				return true;
-			}
-
-			// if match found for a character, move to next characters
-			if (pattern.charAt(index) == s.charAt(j)) {
-				index++;
-				j++;
-			}
-
-			// move indices of strings if no character
-			// match, index of pattern depends on our prefix table for the
-			// pattern
-			else {
-				if (index > 1)
-					index = prefixTable[index - 1];
-				j++;
 			}
 		}
 

@@ -4,21 +4,24 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-import diallo.helper.UsefulMethods;
-
 public class SimplexMethod {
 
 	public static void main(String[] args) throws FileNotFoundException {
 		// TODO Auto-generated method stubs
 
+		// create and initialize array of inequalities
 		Inequality[] ineqs = new Inequality[3];
 		ineqs[0] = new Inequality(180, 2, 1, 1);
 		ineqs[1] = new Inequality(300, 1, 3, 2);
 		ineqs[2] = new Inequality(240, 2, 1, 2);
+
+		// represent the equation as an inequality
 		Inequality p = new Inequality(0, -6, -5, -4);
 
+		// read values from text file into table (2D array)
 		double[][] table = readValuesIntoSimplexTable("txt/simplexTable.txt");
 
+		// run the simplex method on the table
 		simplexMethod(table, ineqs, p);
 
 	}
@@ -26,31 +29,24 @@ public class SimplexMethod {
 	public static void simplexMethod(double[][] table, Inequality[] ineqs,
 			Inequality p) {
 		int r = table.length;
-		int c = table[0].length;
 		double[] lastR = table[r - 1];
 
+		// until equation 'p' has no negative coefficients
 		while (!done(lastR)) {
+
+			// get pivot column and pivot row
 			int pC = getPivotColumn(lastR);
 			int pR = getPivotRow(pC, ineqs.length, table);
+
+			// element at pivot indices
 			double pE = table[pC][pR];
+
 			operateOnRow(table, pR, pE);
 			zeroOtherRows(table, pR, pC);
 		}
 
+		// output final values of variables
 		printVariables(table);
-	}
-
-	public static void printVariables(double[][] table) {
-		for (int j = 0; j < table[0].length; j++)
-			if (isBasicColumn(table, j)) {
-				int row = rowIndexOfOneInColumn(table, j);
-				if (j != table[0].length - 1)
-					System.out.println("Variable #" + (j + 1) + ":\t"
-							+ table[row][table[0].length - 1]);
-				else
-					System.out.println("Maximum is " + table[row][j]);
-			}
-		System.out.println("All other variables are 0.");
 	}
 
 	public static int rowIndexOfOneInColumn(double[][] table, int col) {
@@ -60,12 +56,17 @@ public class SimplexMethod {
 		return -1;
 	}
 
+	// check if column has one '1' and '0' elsewhere
 	public static boolean isBasicColumn(double[][] table, int col) {
 		int numZeros = 0;
 		int numOnes = 0;
 		for (int i = 0; i < table.length; i++)
+
+			// increment number of zeros if element is 0
 			if (table[i][col] == 0)
 				numZeros++;
+
+			// increment number of ones if element is 1
 			else if (table[i][col] == 1)
 				numOnes++;
 
@@ -95,7 +96,7 @@ public class SimplexMethod {
 		double[] rows = new double[numRows];
 		for (int i = 0; i < numRows; i++) {
 			if (table[i][pivotColumn] != 0)
-				rows[i] = table[0][table[0].length - 1] / table[i][pivotColumn];
+				rows[i] = table[i][table[0].length - 1] / table[i][pivotColumn];
 			else
 				rows[i] = Double.MAX_VALUE;
 		}
@@ -103,6 +104,7 @@ public class SimplexMethod {
 		return getPivotColumn(rows);
 	}
 
+	// returns index of minimum element in a given row
 	public static int getPivotColumn(double[] row) {
 		int index = 0;
 		for (int i = 1; i < row.length; i++)
@@ -111,11 +113,27 @@ public class SimplexMethod {
 		return index;
 	}
 
+	// return true if equation has no negative coefficients
 	public static boolean done(double[] row) {
 		for (double d : row)
 			if (d < 0)
 				return false;
 		return true;
+	}
+
+	public static void printVariables(double[][] table) {
+		for (int j = 0; j < table[0].length; j++)
+			if (isBasicColumn(table, j)) {
+
+				// get row which has a value of 1 at given column # j+1
+				int row = rowIndexOfOneInColumn(table, j);
+				if (j != table[0].length - 1)
+					System.out.println("Variable #" + (j + 1) + ":\t"
+							+ table[row][table[0].length - 1]);
+				else
+					System.out.println("Maximum is " + table[row][j]);
+			}
+		System.out.println("All other variables are 0.");
 	}
 
 	public static double[][] readValuesIntoSimplexTable(String filename)
