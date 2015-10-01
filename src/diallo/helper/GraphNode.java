@@ -6,7 +6,7 @@ public class GraphNode {
 	int distance;
 	GraphList neighbors;
 	GraphNode predecessor;
-	boolean visited = false;;
+	boolean visited = false;
 
 	public GraphNode(char name, int distance) {
 		this.name = name;
