@@ -16,7 +16,9 @@ public class BinaryTree {
 
 	public BinaryTree(BTNode root, BinaryTree left, BinaryTree right) {
 		this.root = root;
+		root.setLeft(left.root);
 		this.left = left;
+		root.setRight(right.root);
 		this.right = right;
 	}
 
